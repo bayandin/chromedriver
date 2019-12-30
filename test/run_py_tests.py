@@ -80,6 +80,8 @@ _NEGATIVE_FILTER = [
     'ChromeDriverPageLoadTimeoutTest.testRefreshWithPageLoadTimeout',
     # testFocus is failing
     'JavaScriptTests.testFocus',
+    # https://bugs.chromium.org/p/chromium/issues/detail?id=1038366
+    'JavaScriptTests.testAllJS',
 ]
 
 
