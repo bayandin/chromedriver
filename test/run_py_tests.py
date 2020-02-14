@@ -143,11 +143,6 @@ _INTEGRATION_NEGATIVE_FILTER = [
     'ChromeDriverTest.testWindowMaximize',
     # LaunchApp is an obsolete API.
     'ChromeExtensionsCapabilityTest.testCanLaunchApp',
-    # https://bugs.chromium.org/p/chromedriver/issues/detail?id=2278
-    # The following test uses the obsolete LaunchApp API, and is thus excluded.
-    # TODO(johnchen@chromium.org): Investigate feasibility of re-writing the
-    # test case without using LaunchApp.
-    'ChromeExtensionsCapabilityTest.testCanInspectBackgroundPage',
     # PerfTest takes a long time, requires extra setup, and adds little value
     # to integration testing.
     'PerfTest.*',
@@ -3532,23 +3527,18 @@ class ChromeExtensionsCapabilityTest(ChromeDriverBaseTestWithWebServer):
     self.assertEqual('It works!', body_element.GetText())
 
   def testCanInspectBackgroundPage(self):
-    app_path = os.path.join(_TEST_DATA_DIR, 'test_app')
-    extension_path = os.path.join(_TEST_DATA_DIR, 'all_frames')
+    crx = os.path.join(_TEST_DATA_DIR, 'ext_bg_page.crx')
     driver = self.CreateDriver(
-        chrome_switches=['load-extension=%s' % app_path],
+        chrome_extensions=[self._PackExtension(crx)],
         experimental_options={'windowTypes': ['background_page']})
-    old_handles = driver.GetWindowHandles()
-    driver.LaunchApp('gegjcdcfeiojglhifpmibkadodekakpc')
-    new_window_handle = self.WaitForNewWindow(
-        driver, old_handles, check_closed_windows=False)
     handles = driver.GetWindowHandles()
     for handle in handles:
       driver.SwitchToWindow(handle)
       if driver.GetCurrentUrl() == 'chrome-extension://' \
-          'gegjcdcfeiojglhifpmibkadodekakpc/_generated_background_page.html':
+          'nibbphkelpaohebejnbojjalikodckih/_generated_background_page.html':
         self.assertEqual(42, driver.ExecuteScript('return magic;'))
         return
-    self.fail("couldn't find generated background page for test app")
+    self.fail("couldn't find generated background page for test extension")
 
   def testIFrameWithExtensionsSource(self):
     crx_path = os.path.join(_TEST_DATA_DIR, 'frames_extension.crx')
