@@ -1233,6 +1233,16 @@ class ChromeDriverTest(ChromeDriverBaseTestWithWebServer):
       self.assertRaises(chromedriver.InvalidArgument,
                                   elem.SendKeys, "/blah/blah/blah")
 
+  def testSendKeysToNonTypeableInputElement(self):
+    self._driver.Load("about:blank")
+    self._driver.ExecuteScript(
+         "document.body.innerHTML = '<input type=\"color\">';")
+    elem = self._driver.FindElement('tag name', 'input');
+    input_value = '#7fffd4'
+    elem.SendKeys(input_value)
+    value = elem.GetProperty('value')
+    self.assertEquals(input_value, value)
+
   def testGetElementAttribute(self):
     self._driver.Load(self.GetHttpUrlForFile(
         '/chromedriver/attribute_colon_test.html'))
