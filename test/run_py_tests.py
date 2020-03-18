@@ -1923,9 +1923,6 @@ class ChromeDriverTest(ChromeDriverBaseTestWithWebServer):
     self.assertEquals(0, len(self._driver.GetCookies()))
 
   def testCookieForFrame(self):
-    # Frame must have separate url than outer context for Cookies to be distinct
-    # the cross_domain_iframe with site-per-process fakes the needed setup
-    self._driver = self.CreateDriver(chrome_switches=['--site-per-process'])
     self._driver.Load(self.GetHttpUrlForFile(
         '/chromedriver/cross_domain_iframe.html'))
     self._driver.AddCookie({'name': 'outer', 'value': 'main context'})
