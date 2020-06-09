@@ -127,9 +127,6 @@ _INTEGRATION_NEGATIVE_FILTER = [
     # already tested by other test cases.
     'ChromeDriverTest.testGetCurrentWindowHandle',
     'ChromeDriverTest.testStartStop',
-    # Both https://crbug.com/867511:
-    'ChromeDriverTest.testWindowFullScreen',
-    'ChromeDriverTest.testWindowMaximize',
     # LaunchApp is an obsolete API.
     'ChromeExtensionsCapabilityTest.testCanLaunchApp',
     # PerfTest takes a long time, requires extra setup, and adds little value
@@ -1464,6 +1461,10 @@ class ChromeDriverTest(ChromeDriverBaseTestWithWebServer):
     self.assertNotEqual(old_rect_list, new_rect_list)
 
     self._driver.SetWindowRect(*old_rect_list)
+    for i in range(10):
+      if old_rect_list == self._driver.GetWindowRect():
+        break
+      time.sleep(0.1)
     self.assertEquals(old_rect_list, self._driver.GetWindowRect())
 
   def testConsoleLogSources(self):
