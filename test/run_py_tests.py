@@ -96,6 +96,11 @@ _OS_SPECIFIC_FILTER['win'] = [
     'ChromeDownloadDirTest.testFileDownloadAfterTabHeadless',
     'ChromeDownloadDirTest.testFileDownloadWithClickHeadless',
     'ChromeDownloadDirTest.testFileDownloadWithGetHeadless',
+    # HeadlessInvalidCertificateTest is sometimes flaky.
+    'HeadlessInvalidCertificateTest.*',
+    # Similar issues with HeadlessChromeDriverTest.
+    # https://bugs.chromium.org/p/chromedriver/issues/detail?id=3519
+    'HeadlessChromeDriverTest.*',
 ]
 _OS_SPECIFIC_FILTER['linux'] = [
 ]
@@ -133,11 +138,6 @@ _INTEGRATION_NEGATIVE_FILTER = [
     # PerfTest takes a long time, requires extra setup, and adds little value
     # to integration testing.
     'PerfTest.*',
-    # HeadlessInvalidCertificateTest is sometimes flaky.
-    'HeadlessInvalidCertificateTest.*',
-    # Similar issues with HeadlessChromeDriverTest.
-    # https://bugs.chromium.org/p/chromedriver/issues/detail?id=3519
-    'HeadlessChromeDriverTest.*',
     # Flaky: https://crbug.com/899919
     'SessionHandlingTest.testGetSessions',
     # Flaky due to occasional timeout in starting Chrome
