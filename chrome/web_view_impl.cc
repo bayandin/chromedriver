@@ -685,7 +685,7 @@ Status WebViewImpl::DispatchKeyEvents(const std::vector<KeyEvent>& events,
     }
 
     bool is_ctrl_cmd_key_down = false;
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
     if (it->modifiers & kMetaKeyModifierMask)
       is_ctrl_cmd_key_down = true;
 #else
